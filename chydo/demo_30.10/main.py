@@ -1,10 +1,11 @@
+# импорт необходимих библиотек
 import tkinter as tk 
 import customtkinter as ctk
 import psycopg2
 from tkinter import ttk, messagebox
 from customtkinter import CTkImage
 from PIL import Image
-
+# подключение к БД
 BD_CONNECT = {
     "host" :"localhost",
     "port" :"5432",
@@ -13,10 +14,10 @@ BD_CONNECT = {
     "database": "demo30"
 }
 
-window = ctk.CTk()
+window = ctk.CTk() # создание окна
 window.title("Чудо-Обувь")
 window.geometry("1600x900")
-
+# функции перехода между окнами
 def go_catalog():
     reg_f.pack_forget()
     catalog_f.pack()
@@ -30,7 +31,7 @@ reg_f = ctk.CTkFrame(window, width=200, height=100)
 reg_l = ctk.CTkLabel(reg_f, text='Ввеите логин', font=("Calibri", 16))
 reg_l.grid(row=0, column=0, pady=5, padx=5)
 
-def get_login():
+def get_login(): # получаем логин из строки ввода, проверяем что она не пустая, если все верно, в каталоге выводится "аккаунт - фио пользователя"
     login = reg_e.get().strip()
     
     if not login: 
@@ -75,7 +76,7 @@ price.grid(row=0, column=5, padx=5)
 
 
 
-def catalog(event=None):
+def catalog(event=None): #функция каталога, берем данные из бд для создания карточек, через for pos деалем 1 карточку, которая повторяется для каждой позиции бд
     try:
         con = psycopg2.connect(**BD_CONNECT)
         cur = con.cursor()
@@ -136,7 +137,7 @@ def catalog(event=None):
         con.close()
 catalog()
 
-def get_user_fio(login):
+def get_user_fio(login): # из бд получаем фио пользователя
     try:
         con= psycopg2.connect(**BD_CONNECT)
         cur = con.cursor()
